@@ -26,7 +26,7 @@ class MemberJpaRepositoryTest {
         Member saveMember = memberJpaRepository.save(member);
 
         // when
-        Member findMember = memberJpaRepository.find(saveMember.getId());
+        Member findMember = memberJpaRepository.findById(saveMember.getId()).get();
 
         // then
         assertThat(findMember.getId()).isEqualTo(saveMember.getId());
@@ -42,8 +42,8 @@ class MemberJpaRepositoryTest {
         memberJpaRepository.save(member2);
 
         // 단건 조회 검증
-        Member findMember1 = memberJpaRepository.find(member1.getId());
-        Member findMember2 = memberJpaRepository.find(member2.getId());
+        Member findMember1 = memberJpaRepository.findById(member1.getId()).get();
+        Member findMember2 = memberJpaRepository.findById(member2.getId()).get();
         assertThat(findMember1).isEqualTo(member1);
         assertThat(findMember2).isEqualTo(member2);
 
