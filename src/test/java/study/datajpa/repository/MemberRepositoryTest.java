@@ -156,7 +156,6 @@ class MemberRepositoryTest {
 
         // when
         Page<Member> page = memberRepository.findByAge(age, pageRequest);
-        Page<MemberDto> toMap = page.map(m -> new MemberDto(m.getId(), m.getUsername(), m.getTeam().getName()));
 
         // then
         List<Member> content = page.getContent();
@@ -194,4 +193,23 @@ class MemberRepositoryTest {
     //     assertThat(page.isFirst()).isTrue();
     //     assertThat(page.hasNext()).isTrue();
     // }
+
+    @Test
+    public void bulkUpdate() {
+        // given
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 19));
+        memberRepository.save(new Member("member3", 20));
+        memberRepository.save(new Member("member4", 21));
+        memberRepository.save(new Member("member5", 40));
+
+        // when
+        int resultCount = memberRepository.bulkAgePlus(20);
+
+        Member findMember = memberRepository.findByUsername("member5").get(0);
+        System.out.println("findMember = " + findMember);
+
+        // then
+        assertThat(resultCount).isEqualTo(3);
+    }
 }
